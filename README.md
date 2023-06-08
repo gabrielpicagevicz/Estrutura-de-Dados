@@ -1,1 +1,1 @@
-# Estrutura-de-Dados
+Atividades realizadas durante a matéria de estrutura de dados
