@@ -1,0 +1,33 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+public class Programa {
+
+	public static void main(String[] args) throws Exception {
+	
+	}
+
+	
+	//method to count the words of each file
+		public static int countWords(File file) throws FileNotFoundException {
+			Scanner sc = new Scanner(System.in);
+			int count = 0;
+
+			sc = new Scanner(file);
+
+			while (sc.hasNextLine()) {
+				if(sc.hasNext() == false) {
+					break;
+				}
+				sc.next();
+				count++;
+			}
+
+			sc.close();
+
+			return count;
+		}
+		

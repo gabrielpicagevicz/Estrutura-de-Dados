@@ -1,0 +1,185 @@
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
+import java.util.Set;
+
+public class Programa {
+
+	public static void main(String[] args) throws IOException {
+		Scanner teclado = new Scanner(System.in);
+		StringBuilder sb = new StringBuilder();
+
+		// cria um arraylist de livros
+		List<Livro> biblioteca = new ArrayList<Livro>();
+		// cria e armazena os primeiros dados de cada livro.
+		List<String> dadosLivros = new ArrayList<String>();
+
+		// entrada dos livros
+		File directoryPath = new File("C:\\Users\\Gabriel\\Desktop\\trabalhoED\\Trabalho FinalED\\livros");
+		File filesList[] = directoryPath.listFiles();
+
+		// p/cada arquivo dentro da lista de arquivos, ele executa o bloco de código.
+		for (File file : filesList) {
+			teclado = new Scanner(file);
+			String fl = teclado.nextLine();
+			/*
+			 * Verifica se os caracteres é letra, digito ou espaço em branco, caso a
+			 * condição for atendida, ele cria. E o if quebra o código, para evitar as
+			 * exceções.
+			 */
+			for (int i = 0; i < fl.length(); i++) {
+				while (Character.isLetter(fl.charAt(i)) || Character.isWhitespace(fl.charAt(i))
+						|| Character.isDigit(fl.charAt(i))) {
+					sb.append(fl.charAt(i));
+					i++;
+					if (i == fl.length()) {
+						break;
+					}
+					System.out.println(sb.toString());
+				}
+				dadosLivros.add(sb.toString());
+				sb.delete(0, sb.length());
+			}
+			System.out.println(dadosLivros);
+			// variaveis objeto livro
+			String nomeLivro = dadosLivros.get(0);
+			String autorLivro = dadosLivros.get(1);
+			int dataLançamento = Integer.parseInt(dadosLivros.get(2));
+
+			// cria um objeto Livro e linka ele a uma lista.
+			biblioteca.add(new Livro(nomeLivro, autorLivro, counteudo(file), dataLançamento, counteudo(file).size()));
+
+			/*
+			 * é necessário limpar a lista de dados de livros, porque aconteceria isso:
+			 * [alicesadventuresinwonderland, lewiscarroll, 1991, beowulf,
+			 * autorDesconhecido, 2005, davidcopperfield, charlesdickens, 1996,
+			 * thehistoryofdonquixote, migueldecervantessaavedra, 2004, dracula, bramstoker,
+			 * 1995, lesmiserables, victorhugo, 1994, leviathan, thomashobbes, 2002,
+			 * thegreatgatsby, fscottfitzgerald, 2021, thekamasutraofvatsyayana, vatsyayana,
+			 * 2009, thewaroftheworlds, hgwells, 1992]
+			 */
+			dadosLivros.clear();
+		}
+		// test to print the object toString
+		for (Livro l : biblioteca) {
+			System.out.println(l);
+		}
+
+		// test for the distinct words
+		for (Livro l : biblioteca) {
+			System.out.println("\nO livro: " + l.getNomeLivro() + "\nQuantidade de palavras: "
+					+ l.getQtePalavras() + "\nPossui um total de palavras distintas: " + distintos(l));
+		}
+
+		// imprimir a qtd de  palavra distintas da biblioteca.
+		System.out.println("Total de palavras distintas da biblioteca: " + distintosBiblioteca(biblioteca));
+
+		// test for the frequency methods
+		String palavra = "anyone";
+		for (Livro l : biblioteca) { // frequency of one word
+			System.out.println("A palavra " + palavra + " apareceu " + frequencia(l, palavra) + " vezes no livro "
+					+ l.getNomeLivro());
+
+		}
+		teclado.close();
+	}
+
+	// method to add the content of a book into a StringBuffer
+	public static List<String> counteudo(File file) throws FileNotFoundException {
+		Scanner teclado = new Scanner(System.in);
+		String entrada;
+		List<String> conteudo = new ArrayList<String>();
+
+		teclado = new Scanner(file);
+
+		while (teclado.hasNextLine()) {
+			if (teclado.hasNext() == false) {
+				break;
+			}
+			entrada = teclado.next();
+			conteudo.add(entrada);
+
+		}
+
+		return conteudo;
+	}
+
+	/*
+	 * é mais eficiente(rapido) usar o hash porém ele não fica ordenado ele usa o
+	 * construtor do HashSET qwe aceita uma coleção, ou seja, constrói um conjuntos
+	 * de elementos não duplicados.
+	 */
+	public static int distintos(Livro l) {
+		Set<String> distintos = new HashSet<String>(l.getConteudo());
+		return distintos.size();
+	}
+
+	/*
+	 * aqui acontece a mesma coisa porém com toda a biblioteca.
+	 */
+	public static int distintosBiblioteca(List<Livro> biblioteca) {
+		List<String> conteudo = new ArrayList<String>();
+
+		for (Livro l : biblioteca) {
+			conteudo.addAll(l.getConteudo());
+		}
+		Set<String> distintos = new HashSet<String>(conteudo);
+		return distintos.size();
+	}
+
+	/*
+	 * Tenta buscar a palavra no mapa, quando ele entra no if quer dizer que ele não
+	 * tem a chave de "s" associado a frequencia dela, e a palavra uma vez (1), e
+	 * quando ela caí no else aumenta o valor associado da chave, e assim controla o
+	 * o contador de frequencia. Esse método é bem verboso, existem maneiras
+	 * melhores em questão de velocidade (putIfAbsent).
+	 */
+	public static Integer frequencia(Livro l, String palavra) {
+		Integer freq = 0;
+
+		Map<String, Integer> frequencia = new HashMap<String, Integer>();
+		for (String s : l.getConteudo()) {
+			Integer contador = frequencia.get(s);
+
+			if (contador == null) {
+				frequencia.put(s, 1);
+			} else {
+				frequencia.put(s, contador + 1);
+			}
+		}
+
+		freq = frequencia.get(palavra);
+
+		return freq;
+
+	}
+
+	// Aqui a mesma coisa que com o método fraquencia porém com toda a biblioteca.
+	public static Integer frequenciaBiblioteca(List<Livro> biblioteca, String palavra) {
+		Integer contadorBiblioteca = 0;
+		Map<String, Integer> frequencia = new HashMap<String, Integer>();
+
+		for (Livro l : biblioteca) {
+			for (String s : l.getConteudo()) {
+				Integer countador = frequencia.get(s);
+
+				if (countador == null) {
+					frequencia.put(s, 1);
+				} else {
+					frequencia.put(s, countador + 1);
+				}
+			}
+			contadorBiblioteca += frequencia.get(palavra);
+		}
+
+		return contadorBiblioteca;
+
+	}
+
+}

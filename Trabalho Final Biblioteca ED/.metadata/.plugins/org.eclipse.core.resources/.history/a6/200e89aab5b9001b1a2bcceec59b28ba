@@ -1,0 +1,57 @@
+
+public class Livro {
+	private String nomeLivro;
+	private String autor;
+	private String <List>conteudo;
+	private int anoPublicacao;
+	private int qtePalavras;
+
+	public Livro(String nomeLivro, String autor, String conteudo, int anoPublicacao, int qtePalavras) {
+		super();
+		this.nomeLivro = nomeLivro;
+		this.autor = autor;
+		this.conteudo = conteudo;
+		this.anoPublicacao = anoPublicacao;
+		this.qtePalavras = qtePalavras;
+	}
+
+	public String getNomeLivro() {
+		return nomeLivro;
+	}
+
+	public void setNomeLivro(String nomeLivro) {
+		this.nomeLivro = nomeLivro;
+	}
+
+	public String getAutor() {
+		return autor;
+	}
+
+	public void setAutor(String autor) {
+		this.autor = autor;
+	}
+
+	public String getConteudo() {
+		return conteudo;
+	}
+
+	public void setConteudo(String conteudo) {
+		this.conteudo = conteudo;
+	}
+
+	public int getAnoPublicacao() {
+		return anoPublicacao;
+	}
+
+	public void setAnoPublicacao(int anoPublicacao) {
+		this.anoPublicacao = anoPublicacao;
+	}
+
+	public int getQtePalavras() {
+		return qtePalavras;
+	}
+
+	public void setQtePalavras(int qtePalavras) {
+		this.qtePalavras = qtePalavras;
+	}
+}

@@ -1,0 +1,18 @@
+
+public class Livro {
+	private String nomeLivro;
+	private String autor;
+	private String conteudo;
+	private int anoPublicacao;
+	private int qtePalavras;
+
+	public Livro(String nomeLivro, String autor, List<String> conteudo, int anoPublicacao, int qtePalavras) {
+		super();
+		this.nomeLivro = nomeLivro;
+		this.autor = autor;
+		this.conteudo = conteudo;
+		this.anoPublicacao = anoPublicacao;
+		this.qtePalavras = qtePalavras;
+	}
+
+}
